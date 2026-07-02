@@ -1,5 +1,10 @@
 pipeline {
     agent any
+        
+        triggers {
+            githubPush()
+        }
+
 
     environment {
         AWS_REGION = 'il-central-1'
