@@ -29,9 +29,14 @@ pipeline {
 
         stage('Push to ECR') {
             steps {
-                bat "aws ecr get-login-password --region %AWS_REGION% | docker login --username AWS --password-stdin %ECR_REGISTRY%"
-                bat "docker push %ECR_REGISTRY%/%ECR_REPO%:backend-%VERSION%"
-                bat "docker push %ECR_REGISTRY%/%ECR_REPO%:frontend-%VERSION%"
+                withCredentials([
+                string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
+                string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY')
+                ]) {
+                    bat "aws ecr get-login-password --region %AWS_REGION% | docker login --username AWS --password-stdin %ECR_REGISTRY%"
+                    bat "docker push %ECR_REGISTRY%/%ECR_REPO%:backend-%VERSION%"
+                    bat "docker push %ECR_REGISTRY%/%ECR_REPO%:frontend-%VERSION%"
+                }
             }
         }
 
