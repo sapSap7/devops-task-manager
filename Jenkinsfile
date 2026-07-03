@@ -42,8 +42,8 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                bat "kubectl set image deployment/backend backend=%ECR_REGISTRY%/%ECR_REPO%:backend-%VERSION%"
-                bat "kubectl set image deployment/frontend frontend=%ECR_REGISTRY%/%ECR_REPO%:frontend-%VERSION%"
+                bat "kubectl --kubeconfig C:\\ProgramData\\Jenkins\\.jenkins\\.kube\\config set image deployment/backend backend=%ECR_REGISTRY%/%ECR_REPO%:backend-%VERSION%"
+        bat "kubectl --kubeconfig C:\\ProgramData\\Jenkins\\.jenkins\\.kube\\config set image deployment/frontend frontend=%ECR_REGISTRY%/%ECR_REPO%:frontend-%VERSION%"
             }
         }
     }
